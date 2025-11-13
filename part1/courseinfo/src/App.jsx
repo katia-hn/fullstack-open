@@ -5,8 +5,8 @@ const Header = (props) => {
   )
 }
 
-const Content = ({info}) => {
-  
+/* Asi es como estaba antes de la refactorizacion del content */
+/* const Content = ({info}) => {
   return(
    <div>
       <p>
@@ -20,7 +20,25 @@ const Content = ({info}) => {
       </p>
    </div>
   )
+} */
+
+const Content = ({info}) => {
+  return(
+   <div>
+      <Part part={info[0].part} exercise={info[0].exercise}>
+      </Part>
+      <Part part={info[1].part} exercise={info[1].exercise}>
+      </Part>
+      <Part part={info[2].part} exercise={info[2].exercise}>
+      </Part>
+   </div>
+  )
 }
+
+const Part = ({ part, exercise }) => {
+  return <p>{part} {exercise}</p>
+}
+
 
 const Total = ({info}) => {
   const total = info[0].exercise + info[1].exercise + info[2].exercise
