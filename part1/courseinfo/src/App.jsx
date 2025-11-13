@@ -5,70 +5,60 @@ const Header = (props) => {
   )
 }
 
-/* Asi es como estaba antes de la refactorizacion del content */
-/* const Content = ({info}) => {
-  return(
-   <div>
-      <p>
-        {info[0].part} {info[0].exercise}
-      </p>
-      <p>
-        {info[1].part} {info[1].exercise}
-      </p>
-      <p>
-        {info[2].part} {info[2].exercise}
-      </p>
-   </div>
-  )
-} */
 
-const Content = ({part1, part2, part3}) => {
-  return(
-   <div>
-    
-      <Part part={part1.name} exercise={part1.exercises}>
-      </Part>
-      <Part part={part2.name} exercise={part2.exercises}>
-      </Part>
-      <Part part={part3.name} exercise={part3.exercises}>
-      </Part>
-     
-   </div>
+
+const Content = ({ part }) => {
+  return (
+    <div>
+      {part.map(value => {
+        return (
+          <Part part={value.name} exercise={value.exercises} />
+        )
+      })}
+    </div>
   )
 }
 
-const Part = ({ part, exercise }) => {
+const Part = ( {part, exercise} ) => {
   return <p>{part} {exercise}</p>
 }
 
 
-const Total = ({part1, part2, part3}) => {
-  const total = part1.exercises + part2.exercises + part3.exercises
+const Total = ({part}) => {
+
+  let suma = 0;
+
+  part.forEach(element => {
+     suma += element.exercises
+  });
+
   return(
-    <p>Number of exercises = {total}</p>
+    <p>Number of exercises = {suma}</p>
   )
 }
 
 const App = () => {
   const course = 'Half Stack application development'
-  const part1 = {
-    name: 'Fundamentals of React',
-    exercises: 10
-  }
-  const part2 = {
-    name: 'Using props to pass data',
-    exercises: 7
-  }
-  const part3 = {
-    name: 'State of a component',
-    exercises: 14
-  }
+  const parts = [
+    {
+      name: 'Fundamentals of React',
+      exercises: 10
+    },
+    {
+      name: 'Using props to pass data',
+      exercises: 7
+    },
+    {
+      name: 'State of a component',
+      exercises: 14
+    }
+  ]
 
   return (
     <div>
       <Header course={course} />
-      <Content part1={part1} part2={part2} part3={part3}/>
-      <Total part1={part1} part2={part2} part3={part3}/>
+      <Content part={parts}/>
+      <Total part={parts}/>
     </div>
   )
 }
