@@ -12,16 +12,40 @@ const Stadistic = ({good, neutral, bad, all}) => {
 
   return(
     <div>
-      <h2>Statistics</h2>
-      <p>Good = {good}</p>
-      <p>Neutral = {neutral}</p>
-      <p>Bad = {bad}</p>
-      <p>All = {all}</p>
-      <p>Media = {media}</p>
-      <p>Porcentaje = {porcentaje}%</p>
+      <h2>Stadistics</h2>
+      <table>
+        <tbody>
+          <tr>
+            <td>Good</td>
+            <td>{good}</td>
+          </tr>
+          <tr>
+            <td>Neutral</td>
+            <td>{neutral}</td>
+          </tr>
+          <tr>
+            <td>Bad</td>
+            <td>{bad}</td>
+          </tr>
+          <tr>
+            <td>All</td>
+            <td>{all}</td>
+          </tr>
+          <tr>
+            <td>Average</td>
+            <td>{media}</td>
+          </tr>
+          <tr>
+            <td>Positive</td>
+            <td>{porcentaje}%</td>
+          </tr>
+        </tbody>
+      </table>
+
     </div>
   )
 }
+
 
 const App = () => {
   // guarda los clics de cada botón en su propio estado
