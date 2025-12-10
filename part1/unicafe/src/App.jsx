@@ -3,27 +3,22 @@ import { useState } from 'react'
 const Button = ({onClick, text}) => <button onClick={onClick}>{text}</button>
 
 const Stadistic = ({good, neutral, bad, all}) => {
-   const Media = () => { 
-    const totalScore = (good * 1) + (neutral * 0) +( bad * -1);
-    if(all === 0){
-      return(0)
-    }
-    return (totalScore / all)
+  if(all === 0){
+    return(<p>No feedback given</p>)
   }
-  const Porcentaje = () => {
-    if(all === 0){return(0)}
-    return((good / all) * 100)
-  }
+  const totalScore = (good * 1) + (neutral * 0) +( bad * -1);
+  const media = totalScore / all
+  const porcentaje = (good / all) * 100
 
   return(
     <div>
       <h2>Statistics</h2>
       <p>Good = {good}</p>
-      <p>Neurtal = {neutral}</p>
+      <p>Neutral = {neutral}</p>
       <p>Bad = {bad}</p>
       <p>All = {all}</p>
-      <p>Media = {Media()}</p>
-      <p>Porcentaje = {Porcentaje()}%</p>
+      <p>Media = {media}</p>
+      <p>Porcentaje = {porcentaje}%</p>
     </div>
   )
 }
