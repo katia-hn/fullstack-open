@@ -2,6 +2,32 @@ import { useState } from 'react'
 
 const Button = ({onClick, text}) => <button onClick={onClick}>{text}</button>
 
+const Stadistic = ({good, neutral, bad, all}) => {
+   const Media = () => { 
+    const totalScore = (good * 1) + (neutral * 0) +( bad * -1);
+    if(all === 0){
+      return(0)
+    }
+    return (totalScore / all)
+  }
+  const Porcentaje = () => {
+    if(all === 0){return(0)}
+    return((good / all) * 100)
+  }
+
+  return(
+    <div>
+      <h2>Statistics</h2>
+      <p>Good = {good}</p>
+      <p>Neurtal = {neutral}</p>
+      <p>Bad = {bad}</p>
+      <p>All = {all}</p>
+      <p>Media = {Media()}</p>
+      <p>Porcentaje = {Porcentaje()}%</p>
+    </div>
+  )
+}
+
 const App = () => {
   // guarda los clics de cada botón en su propio estado
   const [good, setGood] = useState(0)
@@ -20,30 +46,13 @@ const App = () => {
   const HandleClickB = () => { setBad(bad + 1)
      setAll(all + 1) 
   }
-
- const Media = () => { 
-    const totalScore = (good * 1) + (neutral * 0) +( bad * -1);
-    if(totalScore === 0){
-      return(0)
-    }
-    return (totalScore / all)
-  }
-  const Porcentaje = () => (good / all) * 100
-
   return (
     <div>
       <h2>Give feedback</h2>
       <Button onClick={HandleClickG} text="Good"></Button>
       <Button onClick={HandleClickN} text="Neutral"></Button>
       <Button onClick={HandleClickB} text="Bad"></Button>
-
-      <h2>Statistics</h2>
-      <p>Good = {good}</p>
-      <p>Neurtal = {neutral}</p>
-      <p>Bad = {bad}</p>
-      <p>All = {all}</p>
-      <p>Media = {Media()}</p>
-      <p>Porcentaje = {Porcentaje()}%</p>
+      <Stadistic good={good} neutral={neutral} bad={bad} all={all} />
     </div>
   )
 }
