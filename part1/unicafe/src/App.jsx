@@ -7,10 +7,28 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+  const [all, setAll] = useState(0)
 
-  const HandleClickG = () => { setGood(good + 1)}
-  const HandleClickN = () => { setNeutral(neutral + 1) }
-  const HandleClickB = () => { setBad(bad + 1) }
+  const HandleClickG = () => { 
+    setGood(good + 1)
+    setAll(all + 1)
+  }
+  const HandleClickN = () => { 
+    setNeutral(neutral + 1)
+     setAll(all + 1) 
+  }
+  const HandleClickB = () => { setBad(bad + 1)
+     setAll(all + 1) 
+  }
+
+ const Media = () => { 
+    const totalScore = (good * 1) + (neutral * 0) +( bad * -1);
+    if(totalScore === 0){
+      return(0)
+    }
+    return (totalScore / all)
+  }
+  const Porcentaje = () => (good / all) * 100
 
   return (
     <div>
@@ -23,6 +41,9 @@ const App = () => {
       <p>Good = {good}</p>
       <p>Neurtal = {neutral}</p>
       <p>Bad = {bad}</p>
+      <p>All = {all}</p>
+      <p>Media = {Media()}</p>
+      <p>Porcentaje = {Porcentaje()}%</p>
     </div>
   )
 }
