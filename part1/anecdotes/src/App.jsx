@@ -31,15 +31,24 @@ const App = () => {
     });
     setVotos(nuevoVoto);
   }
-  
 
+  const max= Math.max(...votos);
+  const indexMax = votos.findIndex((v) => v === max);
 
   return (
     <div>
-      <p>{anecdotes[selected]}</p>
-      <button onClick={handleClick}>Next</button>
-      <button onClick={handleVote}>Votar</button>
-      <p>The total number of votes for this anecdote is <strong>{votos[selected]}</strong></p>
+      <div>
+        <h1>Anecdotes of the day</h1>
+        <p>{anecdotes[selected]}</p>
+        <button onClick={handleClick}>Next</button>
+        <button onClick={handleVote}>Votar</button>
+        <br />
+        <p>The total number of votes for this anecdote is <strong>{votos[selected]}</strong></p>
+      </div>
+      <div>
+        <h2>Anecdote with most votes</h2>
+        <p>{anecdotes[indexMax]}</p>
+      </div>
     </div>
   )
 }
