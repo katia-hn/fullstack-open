@@ -16,10 +16,30 @@ const App = () => {
   const ale = () =>  Math.floor(Math.random() * anecdotes.length);
   const handleClick = () => setSelected(ale())
 
+  const votosIniciales =Array(anecdotes.length).fill(0)
+  const [votos, setVotos] = useState(votosIniciales)
+
+  const handleVote = () => {
+  //c es el valor y el i es el indice de la posicion
+  //map crea automaticamente una copia del array, por lo que no hay que hacer una copia manual
+  const nuevoVoto = votos.map((voto, i) => {
+      if (i === selected) {
+        return voto + 1;
+      } else {
+        return voto;
+      }
+    });
+    setVotos(nuevoVoto);
+  }
+  
+
+
   return (
     <div>
       <p>{anecdotes[selected]}</p>
       <button onClick={handleClick}>Next</button>
+      <button onClick={handleVote}>Votar</button>
+      <p>The total number of votes for this anecdote is <strong>{votos[selected]}</strong></p>
     </div>
   )
 }
