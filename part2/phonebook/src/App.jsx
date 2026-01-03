@@ -1,12 +1,21 @@
 import { useState } from 'react'
 import Numbers from './components/numbers'
 
+const Filter = ({findName, handleFind}) => {
+  return(
+     <div>
+        Filter shown with <input type="text" value={findName} onChange={handleFind}  />
+      </div>
+  );
+}
+
+
 const App = () => {
    const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456', id: 1 },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
+    { name: 'Arto Hellas', phone: '040-123456', id: 1 },
+    { name: 'Ada Lovelace', phone: '39-44-5323523', id: 2 },
+    { name: 'Dan Abramov', phone: '12-43-234345', id: 3 },
+    { name: 'Mary Poppendieck', phone: '39-23-6423122', id: 4 }
   ])
   const [newName, setNewName] = useState('')
   const [newPhone, setPhone]= useState('')
@@ -22,6 +31,13 @@ const App = () => {
     setFindName(event.target.value)
   }
 
+  /*const filterItems = () => persons.filter((person) => person.name.toLowerCase().indexOf(findName.toLowerCase()) > -1)
+ */
+  const filterItems =  persons.filter(person =>
+  person.name.toLowerCase().includes(findName.toLowerCase())
+  );
+  
+
   const addName = (event) => {
     event.preventDefault()
     const nuevo = [{
@@ -31,10 +47,9 @@ const App = () => {
 
     const name = persons.filter(person => person.name === newName)
     const phone = persons.filter(person => person.phone === newPhone)
-    if(name.length !== 0 || phone.length !== 0 ){
-      
-      name.length > 0 ? alert(newName + ' is already added to phonebook') : alert(newPhone + ' is already added to phonebook')
 
+    if(name.length !== 0 || phone.length !== 0 ){
+      name.length > 0 ? alert(newName + ' is already added to phonebook') : alert(newPhone + ' is already added to phonebook')
     }else{
       setPersons(persons.concat(nuevo))
     }
@@ -52,6 +67,7 @@ const App = () => {
       </div>
       <div>
         <h2>Add new</h2>
+
         <form onSubmit={addName}>
           <div>
             name: <input value={newName} onChange={handleName}  />
@@ -65,8 +81,9 @@ const App = () => {
         </form>
       </div>
       <h2>Numbers</h2>
+     
       <ul>
-        {persons.map(person => <Numbers key={person.name} person={person.name} phone={person.phone} />)}
+        {filterItems.map(person => <Numbers key={person.name} person={person.name} phone={person.phone} />)}
       </ul>
     </div>
   )
