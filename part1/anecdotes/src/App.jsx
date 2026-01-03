@@ -34,7 +34,7 @@ const App = () => {
 
   const max= Math.max(...votos);
   const indexMax = votos.findIndex((v) => v === max);
-
+  
   return (
     <div>
       <div>
