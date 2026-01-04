@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Numbers from './components/numbers'
+import Formulario from './components/form'
 
 const Filter = ({findName, handleFind}) => {
   return(
@@ -8,7 +9,6 @@ const Filter = ({findName, handleFind}) => {
       </div>
   );
 }
-
 
 const App = () => {
    const [persons, setPersons] = useState([
@@ -62,26 +62,12 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        Filter shown with <input type="text" value={findName} onChange={handleFind}  />
-      </div>
+      <Filter findName={findName} handleFind={handleFind}/>
       <div>
         <h2>Add new</h2>
-
-        <form onSubmit={addName}>
-          <div>
-            name: <input value={newName} onChange={handleName}  />
-          </div><br />
-          <div>
-            phone: <input value={newPhone} onChange={handlePhone}  />
-          </div><br />
-          <div>
-            <button  type="submit">add</button>
-          </div>
-        </form>
+        <Formulario addName={addName} newName={newName} handleName={handleName} newPhone={newPhone} handlePhone={handlePhone} />
       </div>
       <h2>Numbers</h2>
-     
       <ul>
         {filterItems.map(person => <Numbers key={person.name} person={person.name} phone={person.phone} />)}
       </ul>
