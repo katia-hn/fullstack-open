@@ -36,7 +36,6 @@ const App = () => {
   const filterItems =  persons.filter(person =>
   person.name.toLowerCase().includes(findName.toLowerCase())
   );
-  
 
   const addName = (event) => {
     event.preventDefault()
@@ -58,7 +57,6 @@ const App = () => {
     setPhone('')
   }
   
-
   return (
     <div>
       <h2>Phonebook</h2>
