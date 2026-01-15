@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Numbers from './components/numbers'
 import Formulario from './components/form'
-import axios from 'axios'
+import personsService from './services/persons'
 
 const Filter = ({findName, handleFind}) => {
   return(
@@ -18,10 +18,9 @@ const App = () => {
   const [findName, setFindName] = useState('')
 
   useEffect(() => {
-  axios
-  .get('http://localhost:3001/persons')
+  personsService
+  .getAll()
   .then(response => {
-    console.log('promesa cumplida')
     setPersons(response.data)
   })
 }, [])
@@ -56,7 +55,7 @@ const App = () => {
     if(name.length !== 0 || number.length !== 0 ){
       name.length > 0 ? alert(newName + ' is already added to numberbook') : alert(newNumber + ' is already added to numberbook')
     }else{
-      axios.post('http://localhost:3001/persons', nuevo).then(response => { setPersons(persons.concat(response.data))})
+      personsService.create(nuevo).then(response => {setPersons(persons.concat(response.data))})
     }
 
     setNewName('')
