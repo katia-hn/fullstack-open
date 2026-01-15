@@ -20,8 +20,8 @@ const App = () => {
   useEffect(() => {
   personsService
   .getAll()
-  .then(response => {
-    setPersons(response.data)
+  .then(list => {
+    setPersons(list)
   })
 }, [])
   
@@ -50,16 +50,27 @@ const App = () => {
 
     const name = persons.filter(person => person.name === newName)
     const number = persons.filter(person => person.number === newNumber)
-    console.log(newNumber)
 
     if(name.length !== 0 || number.length !== 0 ){
       name.length > 0 ? alert(newName + ' is already added to numberbook') : alert(newNumber + ' is already added to numberbook')
     }else{
-      personsService.create(nuevo).then(response => {setPersons(persons.concat(response.data))})
+      personsService.create(nuevo).then(phonebook => {setPersons(persons.concat(phonebook))})
     }
 
     setNewName('')
     setNumber('')
+  }
+
+  const deleteNumber = (id) =>{
+
+    if(window.confirm('¿Estás seguro de que quieres borrar?')){
+      personsService.deleteNumber(id)
+      .then( () =>{
+        setPersons(persons.filter(n => n.id !== id))
+      })
+    }else{
+      alert('operacion cancelada')
+    }
   }
   
   return (
@@ -72,7 +83,7 @@ const App = () => {
       </div>
       <h2>Numbers</h2>
       <ul>
-        {filterItems.map(person => <Numbers key={person.name} person={person.name} phone={person.number} />)}
+        {filterItems.map(person => <Numbers key={person.name} person={person.name} phone={person.number} deleteNumber={deleteNumber} id={person.id} />)} 
       </ul>
     </div>
   )
