@@ -11,11 +11,26 @@ const Filter = ({findName, handleFind}) => {
   );
 }
 
+const Mensaje = ({mensaje, exito}) => {
+  
+  if(mensaje === null) {
+    return null
+  } else{
+    return(
+      <div className={`mensaje ${exito ? 'exito' : ''}`}>
+        {mensaje}
+      </div>
+    )
+  }
+}
+
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNumber]= useState('')
   const [findName, setFindName] = useState('')
+  const [mensaje, setMensaje] = useState(null)
+  const [exito, setExito] = useState(true)
 
   useEffect(() => {
   personsService
@@ -58,28 +73,49 @@ const App = () => {
           personsService.updateNum(idP, nuevo)
           .then(list => {
             setPersons(persons.map(num => num.id !== idP ? num : list))
+            setMensaje('It has been successfully replaced.')
+            setExito(true)
+            setTimeout(() => setMensaje(null), 2000)
+          })
+          .catch(() => {
+            setMensaje(`Information of ${name[0].name} has already been removed from server`)
+            setExito(false)
+            setTimeout(() => setMensaje(null), 2000)
           })
         }
       }else{
-        alert(newNumber + ' is already added to numberbook')
+        setMensaje(newNumber + ' is already added to numberbook')
+        setExito(false)
+        setTimeout(() => setMensaje(null), 2000)
       }
     }else{
-      personsService.create(nuevo).then(phonebook => {setPersons(persons.concat(phonebook))})
+      personsService.create(nuevo).
+      then(phonebook => {
+        setPersons(persons.concat(phonebook))
+        setMensaje('It has been added correctly.')
+        setExito(true)
+        setTimeout(() => setMensaje(null), 2000)
+      })
     }
 
     setNewName('')
     setNumber('')
   }
-
   const deleteNumber = (id) =>{
 
-    if(window.confirm('¿Estás seguro de que quieres borrar?')){
+    if(window.confirm('Are you sure you want to delete?')){
       personsService.deleteNumber(id)
       .then( () =>{
         setPersons(persons.filter(n => n.id !== id))
+        setMensaje('It has been successfully deleted.')
+        setExito(true)
+        setTimeout(() => setMensaje(null), 2000)
       })
     }else{
-      alert('operacion cancelada')
+      setMensaje('Operation canceled')
+      setExito(false)
+      setTimeout(() => setMensaje(null), 2000)
+      
     }
   }
   
@@ -87,10 +123,13 @@ const App = () => {
     <div>
       <h2>Numberbook</h2>
       <Filter findName={findName} handleFind={handleFind}/>
+
       <div>
         <h2>Add new</h2>
+        <Mensaje mensaje={mensaje} exito={exito}/>
         <Formulario addName={addName} newName={newName} handleName={handleName} newNumber={newNumber} handleNumber={handleNumber} />
       </div>
+
       <h2>Numbers</h2>
       <ul>
         {filterItems.map(person => <Numbers key={person.name} person={person.name} phone={person.number} deleteNumber={deleteNumber} id={person.id} />)} 
