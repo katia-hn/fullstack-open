@@ -50,9 +50,19 @@ const App = () => {
 
     const name = persons.filter(person => person.name === newName)
     const number = persons.filter(person => person.number === newNumber)
-
+    
     if(name.length !== 0 || number.length !== 0 ){
-      name.length > 0 ? alert(newName + ' is already added to numberbook') : alert(newNumber + ' is already added to numberbook')
+      if(name.length > 0){
+        if(window.confirm(newName + ' is already added to numberbook, remplace the old number with a new one?')){
+          const idP = name[0].id
+          personsService.updateNum(idP, nuevo)
+          .then(list => {
+            setPersons(persons.map(num => num.id !== idP ? num : list))
+          })
+        }
+      }else{
+        alert(newNumber + ' is already added to numberbook')
+      }
     }else{
       personsService.create(nuevo).then(phonebook => {setPersons(persons.concat(phonebook))})
     }

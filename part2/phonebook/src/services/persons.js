@@ -14,9 +14,16 @@ const deleteNumber = (id) =>{
     return axios.delete(`${baseUrl}/${id}`)
 }
 
+const updateNum = (id, newObject) => {
+    const urlPeticion = `${baseUrl}/${id}`
+    const up = axios.put(urlPeticion, newObject).then(response => response.data)
+    return up
+} 
+
 export default {
     getAll: getAll,
     create: create,
-    deleteNumber: deleteNumber
+    deleteNumber: deleteNumber,
+    updateNum: updateNum
 
 }
