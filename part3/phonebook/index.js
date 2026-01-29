@@ -1,6 +1,22 @@
+//importaciones
 const express = require('express')
+const morgan = require('morgan')
 
+//Creacion de la app
 const app = express()
+
+//Tokens *Van siempre antes que las rutas
+morgan.token('body', function(req, res) {
+    return(
+        JSON.stringify(req.body)
+    )
+})
+
+//Middleware
+app.use(express.json())
+app.use(morgan(':method :url :status :response-time :body '))
+
+
 
 let persons = [
     { 
@@ -49,6 +65,50 @@ app.get('/api/persons/:id', (request, response) => {
     }
     
 })
+
+app.delete('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+    persons = persons.filter( n => n.id !== id) 
+
+    response.status(204).end()
+})
+
+app.post('/api/persons', (request, response) =>{
+
+    let id
+
+    do{
+        id = Math.floor(Math.random()*10000)
+    } while(persons.some(person => person.id === id))
+
+
+    const newP = request.body
+    const newPerson = {
+        "id": id,
+        "name": newP.name,
+        "number": newP.number
+    }
+
+    if(!newP.name || !newP.number){
+        return(
+            response.status(400).json({
+                error: 'Name or number missing'
+            })
+        )
+    } else if(persons.find(person => person.name === newP.name)){
+        return(
+            response.status(400).json({
+            error: "Name must be unique"
+            })
+        )
+    }
+
+    persons = persons.concat(newPerson)
+    response.json(newPerson)
+
+    
+})
+
 
 const PORT = 3001
 app.listen(PORT)
